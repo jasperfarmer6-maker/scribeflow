@@ -67,7 +67,7 @@ def build() -> Path:
             story.append(Paragraph(inline(line, font_name), body))
         story.append(Spacer(1, 1.5 * mm))
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    doc = SimpleDocTemplate(str(OUTPUT), pagesize=A4, rightMargin=20 * mm, leftMargin=20 * mm, topMargin=18 * mm, bottomMargin=18 * mm, title="PDF 转 Markdown 技术白皮书")
+    doc = SimpleDocTemplate(str(OUTPUT), pagesize=A4, rightMargin=20 * mm, leftMargin=20 * mm, topMargin=18 * mm, bottomMargin=18 * mm, title="ScribeFlow 技术白皮书")
     doc.build(story)
     print(OUTPUT)
     return OUTPUT

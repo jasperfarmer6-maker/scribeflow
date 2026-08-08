@@ -1,4 +1,4 @@
-# 扫描版 PDF 转 Markdown
+# ScribeFlow：扫描版 PDF 转 Markdown
 
 在 macOS 本地调用 MinerU 识别扫描版 PDF，再以“块级操作”完成保真清洗，保留标题、正文、表格和图片，并按章节输出多个 Markdown 文件。
 
@@ -36,7 +36,7 @@ uv sync
 uv run python macos/build_app.py
 ```
 
-构建完成后，应用位于 `dist/PDF 转 Markdown.app`。双击应用后，把扫描版 PDF 拖入窗口、选择输出目录，再点击“开始转换”即可。应用会显示 OCR、章节分析和 Markdown 生成状态；成功后自动打开输出文件夹，并显示 Markdown 与章节数量。失败时可直接在窗口中查看错误日志。
+构建完成后，应用位于 `dist/ScribeFlow.app`。双击应用后，把扫描版 PDF 拖入窗口、选择输出目录，再点击“开始转换”即可。应用会显示 OCR、章节分析和 Markdown 生成状态；成功后自动打开输出文件夹，并显示 Markdown 与章节数量。失败时可直接在窗口中查看错误日志。
 
 应用已内置 Python 3.12、MinerU 和项目后端，不依赖本项目的 `.venv`，日常使用无需打开终端。OCR 模型沿用当前用户的 ModelScope 缓存；新机器第一次使用时需要联网下载模型。
 

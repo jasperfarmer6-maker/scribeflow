@@ -19,9 +19,13 @@ from PIL import Image
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PYTHON_RUNTIME = Path(sys.base_prefix)
 SITE_PACKAGES = PROJECT_ROOT / ".venv/lib/python3.12/site-packages"
-APP_NAME = "PDF 转 Markdown.app"
+APP_NAME = "ScribeFlow.app"
+PREVIOUS_APP_NAME = "PDF 转 Markdown.app"
 EXECUTABLE_NAME = "PDFToMarkdown"
-LEGACY_INSTALL_PATH = Path("/Applications") / APP_NAME
+LEGACY_INSTALL_PATHS = (
+    Path("/Applications") / APP_NAME,
+    Path("/Applications") / PREVIOUS_APP_NAME,
+)
 
 
 def run(command: list[str], *, cwd: Path | None = None) -> None:
@@ -32,7 +36,7 @@ def run(command: list[str], *, cwd: Path | None = None) -> None:
 def cleanup_old_app_copies(output_root: Path, final_app: Path) -> None:
     """Remove known old copies only after the new App has passed validation."""
 
-    old_paths = [LEGACY_INSTALL_PATH]
+    old_paths = [*LEGACY_INSTALL_PATHS, output_root / PREVIOUS_APP_NAME]
     for path in old_paths:
         if path == final_app or not path.exists():
             continue

@@ -33,7 +33,7 @@ struct ContentView: View {
                 .font(.system(size: 34))
                 .foregroundStyle(Color.accentColor)
             VStack(alignment: .leading, spacing: 3) {
-                Text("PDF 转 Markdown")
+                Text("ScribeFlow")
                     .font(.title2.bold())
                 Text("扫描件 OCR、保真清洗、按章节输出")
                     .foregroundStyle(.secondary)
