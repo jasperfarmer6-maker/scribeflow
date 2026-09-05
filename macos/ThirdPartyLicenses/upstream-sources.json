@@ -1,0 +1,50 @@
+[
+  {
+    "name": "magika",
+    "source_url": "https://raw.githubusercontent.com/google/magika/94ffd1de3272a21a56e2e99b5ac470b44813d063/LICENSE",
+    "commit": "94ffd1de3272a21a56e2e99b5ac470b44813d063",
+    "requested_ref": "main",
+    "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+    "file": "magika/UPSTREAM-LICENSE"
+  },
+  {
+    "name": "ffmpy",
+    "source_url": "https://raw.githubusercontent.com/Ch00k/ffmpy/3b3c56f3ef04b3868b401c3fa2cc6ea294b78dfb/LICENSE",
+    "commit": "3b3c56f3ef04b3868b401c3fa2cc6ea294b78dfb",
+    "requested_ref": "master",
+    "sha256": "19ee5defbb6148c54c2d605adddbb49e37b1f37fbf18e5b45e4e1fae94be5331",
+    "file": "ffmpy/UPSTREAM-LICENSE"
+  },
+  {
+    "name": "loguru",
+    "source_url": "https://raw.githubusercontent.com/Delgan/loguru/ae3bfd1b85b6b4a3db535f69b975687c79498be4/LICENSE",
+    "commit": "ae3bfd1b85b6b4a3db535f69b975687c79498be4",
+    "requested_ref": "0.7.3",
+    "sha256": "b35d026cc7aca9d5859a02eb87ddf7a386a24c986838651bd1f283f94e003327",
+    "file": "loguru/UPSTREAM-LICENSE"
+  },
+  {
+    "name": "gradio_client",
+    "source_url": "https://raw.githubusercontent.com/gradio-app/gradio/82ca180c5c9a77d36b9097a62e63318317dc9d1f/LICENSE",
+    "commit": "82ca180c5c9a77d36b9097a62e63318317dc9d1f",
+    "requested_ref": "main",
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "file": "gradio_client/UPSTREAM-LICENSE"
+  },
+  {
+    "name": "flatbuffers",
+    "source_url": "https://raw.githubusercontent.com/google/flatbuffers/7e163021e59cca4f8e1e35a7c828b5c6b7915953/LICENSE",
+    "commit": "7e163021e59cca4f8e1e35a7c828b5c6b7915953",
+    "requested_ref": "v25.12.19",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "file": "flatbuffers/UPSTREAM-LICENSE"
+  },
+  {
+    "name": "cobble",
+    "source_url": "https://raw.githubusercontent.com/mwilliamson/python-cobble/a4f92a3462303c1402c8c55e3b5a45fa3bc2fa37/README.rst",
+    "commit": "a4f92a3462303c1402c8c55e3b5a45fa3bc2fa37",
+    "sha256": "d6d46202db973b560d2f521dced9110b3e0a46d9a75e1428dade8b7608dd0cca",
+    "file": "cobble/UPSTREAM-README.rst",
+    "note": "Exact release README declares 2-Clause BSD; no separate upstream LICENSE file."
+  }
+]

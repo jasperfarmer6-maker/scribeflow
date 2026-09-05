@@ -42,12 +42,15 @@ def write_notices(resources: Path, site_packages: Path, notice: Path) -> None:
     shutil.copy2(notice, destination / 'THIRD_PARTY_NOTICES.md')
     python_license = resources / 'runtime/python/lib/python3.12/LICENSE.txt'
     shutil.copy2(python_license, destination / 'Python-LICENSE.txt')
+    supplemental = notice.parent / 'macos/ThirdPartyLicenses'
+    if supplemental.is_dir():
+        shutil.copytree(supplemental, destination / 'Supplemental')
     index = []
     for dist in sorted(importlib.metadata.distributions(path=[str(site_packages)]), key=lambda d: d.metadata['Name'].lower()):
         name = dist.metadata['Name']
         copied = []
         for file in dist.files or ():
-            if not any(word in Path(str(file)).name.lower() for word in ('license', 'copying', 'copyright', 'notice')):
+            if not any(word in str(file).lower() for word in ('license', 'licence', 'copying', 'copyright', 'notice')):
                 continue
             original = Path(dist.locate_file(file))
             if not original.is_file() or not original.resolve().is_relative_to(site_packages.resolve()):
@@ -57,6 +60,9 @@ def write_notices(resources: Path, site_packages: Path, notice: Path) -> None:
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(original, target)
             copied.append(str(target.relative_to(resources)))
+        extra = destination / 'Supplemental' / name
+        if extra.is_dir():
+            copied.extend(str(p.relative_to(resources)) for p in extra.rglob('*') if p.is_file())
         index.append({'name': name, 'version': dist.version, 'license': dist.metadata.get('License-Expression') or dist.metadata.get('License', ''), 'files': copied})
     (destination / 'index.json').write_text(json.dumps(index, ensure_ascii=False, indent=2) + '\n')
 

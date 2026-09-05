@@ -34,6 +34,10 @@ enum BackendLocator {
                 environment["PYTHONPATH"] = sitePackages.path
                 environment["PYTHONUNBUFFERED"] = "1"
                 environment["PYTHONDONTWRITEBYTECODE"] = "1"
+                environment["PYTHONNOUSERSITE"] = "1"
+                environment.removeValue(forKey: "PYTHONHOME")
+                environment["NUMBA_CACHE_DIR"] = fileManager.homeDirectoryForCurrentUser
+                    .appendingPathComponent("Library/Caches/ScribeFlow/numba").path
                 return BackendRuntime(pythonURL: bundledPython, environment: environment)
             }
 

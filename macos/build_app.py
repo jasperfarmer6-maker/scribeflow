@@ -139,6 +139,7 @@ def build(output_root: Path, python_runtime: Path) -> Path:
     build_info = {
         **source_info(PROJECT_ROOT),
         "app_version": info["CFBundleShortVersionString"],
+        "minimum_macos": info["LSMinimumSystemVersion"],
         "bundle_id": "com.local.PDFToMarkdown",
         "python": "3.12.13",
         "architecture": "arm64",

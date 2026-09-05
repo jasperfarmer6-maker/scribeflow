@@ -1,0 +1,24 @@
+[
+  {
+    "name": "sentencepiece",
+    "version": "0.2.2",
+    "source_url": "https://files.pythonhosted.org/packages/cc/33/ea3cb3839607eb175da835244a798f797f478c5ddf0e8ecdf57ea85a4c70/sentencepiece-0.2.2.tar.gz",
+    "source_sha256": "3d2b5e824b5622038dc7b490897efe05ebbbb9e7350fc142f3ecc8789ef9bdf6",
+    "files": [
+      "sentencepiece/sentencepiece/LICENSE",
+      "sentencepiece/sentencepiece/third_party/abseil-cpp/LICENSE",
+      "sentencepiece/sentencepiece/third_party/darts_clone/LICENSE",
+      "sentencepiece/sentencepiece/third_party/esaxx/LICENSE",
+      "sentencepiece/sentencepiece/third_party/protobuf-lite/LICENSE"
+    ]
+  },
+  {
+    "name": "tokenizers",
+    "version": "0.22.2",
+    "source_url": "https://files.pythonhosted.org/packages/73/6f/f80cfef4a312e1fb34baf7d85c72d4411afde10978d4657f8cdd811d3ccc/tokenizers-0.22.2.tar.gz",
+    "source_sha256": "473b83b915e547aa366d1eee11806deaf419e17be16310ac0a14077f1e28f917",
+    "files": [
+      "tokenizers/tokenizers/LICENSE"
+    ]
+  }
+]
