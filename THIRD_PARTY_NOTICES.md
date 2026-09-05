@@ -1,9 +1,10 @@
 # Third-Party Notices
 
-This repository contains this project's source code. It does not redistribute
-MinerU model weights, Python runtimes, or installed dependency distributions.
-Install dependencies from the project's declared requirements and review their
-licenses before redistributing a bundled application.
+The Git repository contains project source. Release ZIPs also contain a standalone
+CPython 3.12 runtime and installed dependency distributions; no model weights are
+bundled. Original distribution licenses remain in the runtime and are collected
+in Contents/Resources/Licenses with a machine-readable index.json. The CPython
+license and this project's MIT license are included there as well.
 
 | Component | Use in this project | License | Source |
 | --- | --- | --- | --- |

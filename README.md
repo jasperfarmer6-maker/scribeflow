@@ -29,7 +29,9 @@
 
 ## 从源码构建 macOS 桌面应用
 
-本仓库只发布源码，不提供已打包的 `.app`、OCR 模型或第三方运行时。构建本地应用前，请先完成依赖安装，并准备完整 Xcode 与独立 Python 3.12 运行时。
+GitHub Releases 提供包含独立 Python 运行时和依赖的 Apple Silicon 应用 ZIP；安装步骤、系统验证边界及首次模型下载见 [INSTALL.md](INSTALL.md)。模型不随包分发。
+
+从源码构建时，请先完成依赖安装，并准备完整 Xcode 与独立 Python 3.12 运行时。构建只输出到 `dist/`，不删除已安装的应用。
 
 ```text
 uv sync

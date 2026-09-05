@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import plistlib
 import shutil
 import subprocess
 import sys
@@ -15,40 +16,20 @@ from pathlib import Path
 
 from PIL import Image
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from portable_runtime import copy_ignore, copy_python, source_info, verify_links, write_notices
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PYTHON_RUNTIME = Path(sys.base_prefix)
 SITE_PACKAGES = PROJECT_ROOT / ".venv/lib/python3.12/site-packages"
 APP_NAME = "ScribeFlow.app"
-PREVIOUS_APP_NAME = "PDF 转 Markdown.app"
 EXECUTABLE_NAME = "PDFToMarkdown"
-LEGACY_INSTALL_PATHS = (
-    Path("/Applications") / APP_NAME,
-    Path("/Applications") / PREVIOUS_APP_NAME,
-)
 
 
 def run(command: list[str], *, cwd: Path | None = None) -> None:
     print("+", " ".join(command), flush=True)
     subprocess.run(command, cwd=cwd, check=True)
-
-
-def cleanup_old_app_copies(output_root: Path, final_app: Path) -> None:
-    """Remove known old copies only after the new App has passed validation."""
-
-    old_paths = [*LEGACY_INSTALL_PATHS, output_root / PREVIOUS_APP_NAME]
-    for path in old_paths:
-        if path == final_app or not path.exists():
-            continue
-        print(f"清理旧版 App：{path}", flush=True)
-        shutil.rmtree(path)
-
-    for pattern in (".PDFToMarkdown.staging-*", ".PDFToMarkdown.backup-*"):
-        for path in output_root.glob(pattern):
-            if path == final_app:
-                continue
-            print(f"清理构建现场：{path}", flush=True)
-            shutil.rmtree(path)
 
 
 def verify_xcode_toolchain() -> None:
@@ -65,20 +46,6 @@ def verify_xcode_toolchain() -> None:
             "构建 macOS SwiftUI App 需要完整 Xcode（当前仅检测到 CommandLineTools）。"
             "请安装 Xcode，或设置 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer 后重试。"
         )
-
-
-def copy_ignore(_directory: str, names: list[str]) -> set[str]:
-    ignored: set[str] = set()
-    for name in names:
-        if name == "__pycache__" or name.endswith((".pyc", ".pyo")):
-            ignored.add(name)
-        if name in {
-            "_editable_impl_pdf_to_markdown.pth",
-            "_virtualenv.pth",
-            "_virtualenv.py",
-        }:
-            ignored.add(name)
-    return ignored
 
 
 def create_icon(source: Path, resources: Path, work_dir: Path) -> None:
@@ -100,6 +67,8 @@ def create_icon(source: Path, resources: Path, work_dir: Path) -> None:
 
 
 def build(output_root: Path, python_runtime: Path) -> Path:
+    if output_root.resolve() == Path("/Applications") or Path("/Applications") in output_root.resolve().parents:
+        raise RuntimeError("构建输出不能位于 /Applications；请先在 dist 构建后手动安装。")
     verify_xcode_toolchain()
     if not python_runtime.joinpath("bin/python3.12").is_file():
         raise RuntimeError(f"找不到独立 Python 3.12：{python_runtime}")
@@ -125,6 +94,8 @@ def build(output_root: Path, python_runtime: Path) -> Path:
     run(
         [
             "swiftc",
+            "-target",
+            "arm64-apple-macos14.0",
             "-parse-as-library",
             "-O",
             "-module-cache-path",
@@ -141,12 +112,7 @@ def build(output_root: Path, python_runtime: Path) -> Path:
     create_icon(PROJECT_ROOT / "macos/Resources/AppIcon-Source.png", resources, staging)
 
     print("复制独立 Python 3.12…", flush=True)
-    shutil.copytree(
-        python_runtime,
-        bundled_python,
-        symlinks=True,
-        ignore=copy_ignore,
-    )
+    copy_python(python_runtime, bundled_python)
 
     print("复制 MinerU 与 Python 依赖（约 1.3GB）…", flush=True)
     shutil.copytree(
@@ -166,8 +132,13 @@ def build(output_root: Path, python_runtime: Path) -> Path:
         ignore=copy_ignore,
     )
 
+    info = plistlib.loads((contents / "Info.plist").read_bytes())
+    write_notices(resources, bundled_site_packages, PROJECT_ROOT / "THIRD_PARTY_NOTICES.md")
+    shutil.copy2(PROJECT_ROOT / "LICENSE", resources / "Licenses/ScribeFlow-LICENSE")
+    verify_links(app)
     build_info = {
-        "app_version": "0.1.0",
+        **source_info(PROJECT_ROOT),
+        "app_version": info["CFBundleShortVersionString"],
         "bundle_id": "com.local.PDFToMarkdown",
         "python": "3.12.13",
         "architecture": "arm64",
@@ -203,7 +174,6 @@ def build(output_root: Path, python_runtime: Path) -> Path:
             shutil.rmtree(staging)
     if backup:
         shutil.rmtree(backup)
-    cleanup_old_app_copies(output_root, final_app)
     return final_app
 
 
